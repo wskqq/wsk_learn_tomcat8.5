@@ -436,7 +436,8 @@ public final class Bootstrap {
      * @param args Command line arguments to be processed
      */
     public static void main(String args[]) {
-
+        // TODO tomcat源码环境搭建之后test目录下类编译报错，可以通过删除解决
+        // TODO tomcat启动类的启动方法
         synchronized (daemonLock) {
             if (daemon == null) {
                 // Don't set daemon until init() has completed
