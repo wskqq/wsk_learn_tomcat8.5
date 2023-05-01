@@ -647,6 +647,7 @@ public abstract class HttpServlet extends GenericServlet {
 
         String method = req.getMethod();
 
+        // TODO get请求
         if (method.equals(METHOD_GET)) {
             long lastModified = getLastModified(req);
             if (lastModified == -1) {
@@ -672,14 +673,15 @@ public abstract class HttpServlet extends GenericServlet {
                 }
             }
 
+        // TODO head请求
         } else if (method.equals(METHOD_HEAD)) {
             long lastModified = getLastModified(req);
             maybeSetLastModified(resp, lastModified);
             doHead(req, resp);
-
+        // TODO post请求
         } else if (method.equals(METHOD_POST)) {
             doPost(req, resp);
-
+        // TODO put请求
         } else if (method.equals(METHOD_PUT)) {
             doPut(req, resp);
 

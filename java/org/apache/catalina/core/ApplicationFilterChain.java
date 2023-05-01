@@ -163,6 +163,7 @@ public final class ApplicationFilterChain implements FilterChain {
                 }
             }
         } else {
+            // TODO 真正执行过滤的方法
             internalDoFilter(request,response);
         }
     }
@@ -190,6 +191,7 @@ public final class ApplicationFilterChain implements FilterChain {
                     Object[] args = new Object[]{req, res, this};
                     SecurityUtil.doAsPrivilege ("doFilter", filter, classType, args, principal);
                 } else {
+                    // TODO 执行过滤方法
                     filter.doFilter(request, response, this);
                 }
             } catch (IOException | ServletException | RuntimeException e) {
@@ -228,6 +230,7 @@ public final class ApplicationFilterChain implements FilterChain {
                                            args,
                                            principal);
             } else {
+                // TODO servlet执行的方法
                 servlet.service(request, response);
             }
         } catch (IOException | ServletException | RuntimeException e) {

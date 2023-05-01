@@ -692,6 +692,7 @@ public class StandardHost extends ContainerBase implements Host {
             context.setPath(cn.getPath());
         }
 
+        // TODO 启动StandardHost
         super.addChild(child);
 
     }

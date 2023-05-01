@@ -614,6 +614,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
         endpoint.setName(endpointName.substring(1, endpointName.length()-1));
         endpoint.setDomain(domain);
 
+        // TODO
         endpoint.init();
     }
 
@@ -844,6 +845,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
                 SocketState state = SocketState.CLOSED;
                 do {
+                    // TODO 请求入口4
                     state = processor.process(wrapper, status);
 
                     if (state == SocketState.UPGRADING) {

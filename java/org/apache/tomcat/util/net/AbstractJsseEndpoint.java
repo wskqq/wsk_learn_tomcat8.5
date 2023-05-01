@@ -219,6 +219,7 @@ public abstract class AbstractJsseEndpoint<S> extends AbstractEndpoint<S> {
     @Override
     public void init() throws Exception {
         testServerCipherSuitesOrderSupport();
+        // TODO
         super.init();
     }
 

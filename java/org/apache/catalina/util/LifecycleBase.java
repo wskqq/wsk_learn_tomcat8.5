@@ -133,6 +133,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
         try {
             setStateInternal(LifecycleState.INITIALIZING, null, false);
+            // TODO 逐级初始化容器的方法
             initInternal();
             setStateInternal(LifecycleState.INITIALIZED, null, false);
         } catch (Throwable t) {
@@ -180,6 +181,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
         try {
             setStateInternal(LifecycleState.STARTING_PREP, null, false);
+            // TODO 逐级启动容器，通过模板方法，子类做具体的实现
             startInternal();
             if (state.equals(LifecycleState.FAILED)) {
                 // This is a 'controlled' failure. The component put itself into the
@@ -254,6 +256,7 @@ public abstract class LifecycleBase implements Lifecycle {
                 setStateInternal(LifecycleState.STOPPING_PREP, null, false);
             }
 
+            // TODO 逐级停止容器，模板方法
             stopInternal();
 
             // Shouldn't be necessary but acts as a check that sub-classes are

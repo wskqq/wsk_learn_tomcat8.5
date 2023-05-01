@@ -1071,6 +1071,7 @@ public class Connector extends LifecycleMBeanBase  {
         }
 
         try {
+            // TODO 初始化
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(
@@ -1096,6 +1097,7 @@ public class Connector extends LifecycleMBeanBase  {
         setState(LifecycleState.STARTING);
 
         try {
+            // TODO 启动protocolHandler
             protocolHandler.start();
         } catch (Exception e) {
             throw new LifecycleException(

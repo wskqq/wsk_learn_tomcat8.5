@@ -278,9 +278,11 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                 Thread pollerThread = new Thread(pollers[i], getName() + "-ClientPoller-"+i);
                 pollerThread.setPriority(threadPriority);
                 pollerThread.setDaemon(true);
+                // TODO 启动poller线程
                 pollerThread.start();
             }
 
+            // TODO 启动接收请求的线程
             startAcceptorThreads();
         }
     }
@@ -512,6 +514,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                     try {
                         // Accept the next incoming connection from the server
                         // socket
+                        // TODO 请求入口1
                         socket = serverSock.accept();
 
                         SocketAddress currentRemoteAddress = socket.getRemoteAddress();
@@ -863,13 +866,15 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
         @Override
         public void run() {
             // Loop until destroy() is called
+            // TODO tomcat在Acceptor的run方法中接收请求之后，在Poller的run方法中轮训处理请求
             while (true) {
-
+                // TODO 轮训处理请求
                 boolean hasEvents = false;
 
                 try {
                     if (!close) {
                         hasEvents = events();
+                        // TODO 判断是否有时间就绪
                         if (wakeupCounter.getAndSet(-1) > 0) {
                             // If we are here, means we have other stuff to do
                             // Do a non blocking select
@@ -899,6 +904,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                     hasEvents = (hasEvents | events());
                 }
 
+                // TODO 取出待处理的事件
                 Iterator<SelectionKey> iterator =
                     keyCount > 0 ? selector.selectedKeys().iterator() : null;
                 // Walk through the collection of ready keys and dispatch
@@ -910,6 +916,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                     // Attachment may be null if another thread has called
                     // cancelledKey()
                     if (socketWrapper != null) {
+                        // TODO 处理socket
                         processKey(sk, socketWrapper);
                     }
                 }
@@ -933,12 +940,16 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                             unreg(sk, attachment, sk.readyOps());
                             boolean closeSocket = false;
                             // Read goes before write
+                            // TODO 可读
                             if (sk.isReadable()) {
+                                // TODO 处理socket
                                 if (!processSocket(attachment, SocketEvent.OPEN_READ, true)) {
                                     closeSocket = true;
                                 }
                             }
+                            // TODO 可写
                             if (!closeSocket && sk.isWritable()) {
+                                // TODO 处理socket
                                 if (!processSocket(attachment, SocketEvent.OPEN_WRITE, true)) {
                                     closeSocket = true;
                                 }
@@ -1634,6 +1645,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
         @Override
         protected void doRun() {
+            // TODO 接收前端
             NioChannel socket = socketWrapper.getSocket();
             SelectionKey key = socket.getIOChannel().keyFor(socket.getPoller().getSelector());
 
@@ -1677,6 +1689,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
                     if (event == null) {
                         state = getHandler().process(socketWrapper, SocketEvent.OPEN_READ);
                     } else {
+                        // TODO 请求入口3
                         state = getHandler().process(socketWrapper, event);
                     }
                     if (state == SocketState.CLOSED) {

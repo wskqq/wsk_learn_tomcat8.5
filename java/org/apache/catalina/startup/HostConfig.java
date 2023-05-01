@@ -315,6 +315,7 @@ public class HostConfig implements LifecycleListener {
         } else if (event.getType().equals(Lifecycle.BEFORE_START_EVENT)) {
             beforeStart();
         } else if (event.getType().equals(Lifecycle.START_EVENT)) {
+            // TODO 发布apps,启动host、Context
             start();
         } else if (event.getType().equals(Lifecycle.STOP_EVENT)) {
             stop();
@@ -471,8 +472,10 @@ public class HostConfig implements LifecycleListener {
         // Deploy XML descriptors from configBase
         deployDescriptors(configBase, configBase.list());
         // Deploy WARs
+        // TODO 发布war包
         deployWARs(appBase, filteredAppPaths);
         // Deploy expanded folders
+        // TODO 发布扩展的文件夹，启动 StandardHost
         deployDirectories(appBase, filteredAppPaths);
     }
 
@@ -1084,6 +1087,7 @@ public class HostConfig implements LifecycleListener {
                         }
 
                         // DeployDirectory will call removeServiced
+                        // TODO 启动 StandardHost
                         results.add(es.submit(new DeployDirectory(this, cn, dir)));
                     } catch (Throwable t) {
                         ExceptionUtils.handleThrowable(t);
@@ -1174,6 +1178,7 @@ public class HostConfig implements LifecycleListener {
             context.setPath(cn.getPath());
             context.setWebappVersion(cn.getVersion());
             context.setDocBase(cn.getBaseName());
+            // TODO 启动StandardHost
             host.addChild(context);
         } catch (Throwable t) {
             ExceptionUtils.handleThrowable(t);
@@ -1607,6 +1612,7 @@ public class HostConfig implements LifecycleListener {
         }
 
         if (host.getDeployOnStartup()) {
+            // TODO 发布apps,启动 Host 、Context
             deployApps();
         }
     }
@@ -1922,6 +1928,7 @@ public class HostConfig implements LifecycleListener {
         @Override
         public void run() {
             try {
+                // TODO 启动StandardHost
                 config.deployDirectory(cn, dir);
             } finally {
                 config.removeServiced(cn.getName());

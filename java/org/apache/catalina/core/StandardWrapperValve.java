@@ -125,6 +125,7 @@ final class StandardWrapperValve extends ValveBase {
         // Allocate a servlet instance to process this request
         try {
             if (!unavailable) {
+                // TODO 取出sevlet
                 servlet = wrapper.allocate();
             }
         } catch (UnavailableException e) {
@@ -165,6 +166,7 @@ final class StandardWrapperValve extends ValveBase {
         request.setAttribute(Globals.DISPATCHER_REQUEST_PATH_ATTR,
                 requestPathMB);
         // Create the filter chain for this request
+        // TODO 创建请求的过滤链路
         ApplicationFilterChain filterChain =
                 ApplicationFilterFactory.createFilterChain(request, wrapper, servlet);
 
@@ -180,6 +182,7 @@ final class StandardWrapperValve extends ValveBase {
                         if (request.isAsyncDispatching()) {
                             request.getAsyncContextInternal().doInternalDispatch();
                         } else {
+                            // TODO 执行请求过滤
                             filterChain.doFilter(request.getRequest(),
                                     response.getResponse());
                         }

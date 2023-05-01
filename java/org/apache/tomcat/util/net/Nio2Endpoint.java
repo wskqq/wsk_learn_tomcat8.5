@@ -1604,6 +1604,7 @@ public class Nio2Endpoint extends AbstractJsseEndpoint<Nio2Channel> {
 
         @Override
         protected void doRun() {
+            // TODO 接收前端请求入口
             boolean launch = false;
             try {
                 int handshake = -1;

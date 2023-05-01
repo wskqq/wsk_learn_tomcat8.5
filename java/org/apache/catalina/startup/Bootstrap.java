@@ -248,7 +248,7 @@ public final class Bootstrap {
      * @throws Exception Fatal initialization error
      */
     public void init() throws Exception {
-
+        // TODO 初始化类加载，为什么要创建多个类加载器？？？
         initClassLoaders();
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);
@@ -259,7 +259,9 @@ public final class Bootstrap {
         if (log.isDebugEnabled()) {
             log.debug("Loading startup class");
         }
+        // TODO 加载启动处理类 Catalina
         Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
+        // TODO 通过反射的方式创建对象，为什么要通过反射创建对象，而不是创建一个全局变量？？？
         Object startupInstance = startupClass.getConstructor().newInstance();
 
         // Set the shared extensions class loader
@@ -443,6 +445,7 @@ public final class Bootstrap {
                 // Don't set daemon until init() has completed
                 Bootstrap bootstrap = new Bootstrap();
                 try {
+                    // TODO 初始化类加载器及catalina容器
                     bootstrap.init();
                 } catch (Throwable t) {
                     handleThrowable(t);
@@ -472,6 +475,7 @@ public final class Bootstrap {
                 args[args.length - 1] = "stop";
                 daemon.stop();
             } else if (command.equals("start")) {
+                // TODO 启动tomcat
                 daemon.setAwait(true);
                 daemon.load(args);
                 daemon.start();

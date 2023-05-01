@@ -750,6 +750,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
             if ((getState().isAvailable() ||
                     LifecycleState.STARTING_PREP.equals(getState())) &&
                     startChildren) {
+                // TODO 启动 StandardContext
                 child.start();
             }
         } catch (LifecycleException e) {
@@ -959,9 +960,11 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
             ((Lifecycle) pipeline).start();
         }
 
+        // TODO 启动host、context
         setState(LifecycleState.STARTING);
 
         // Start our thread
+        // TODO 启动容器线程
         threadStart();
     }
 
@@ -1299,6 +1302,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         String threadName = "ContainerBackgroundProcessor[" + toString() + "]";
         thread = new Thread(new ContainerBackgroundProcessor(), threadName);
         thread.setDaemon(true);
+        // TODO 启动容器
         thread.start();
 
     }

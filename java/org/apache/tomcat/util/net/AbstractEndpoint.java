@@ -1140,13 +1140,17 @@ public abstract class AbstractEndpoint<S> {
             if (socketWrapper == null) {
                 return false;
             }
+            // TODO 取出线程
             SocketProcessorBase<S> sc = processorCache.pop();
             if (sc == null) {
+                // TODO 没有则创建
                 sc = createSocketProcessor(socketWrapper, event);
             } else {
+                // TODO 有就重置
                 sc.reset(socketWrapper, event);
             }
             Executor executor = getExecutor();
+            // TODO 通过线程池方式执行或者直接调用，入口1
             if (dispatch && executor != null) {
                 executor.execute(sc);
             } else {
@@ -1186,6 +1190,7 @@ public abstract class AbstractEndpoint<S> {
 
     public void init() throws Exception {
         if (bindOnInit) {
+            // TODO 绑定端口
             bind();
             bindState = BindState.BOUND_ON_INIT;
         }
